@@ -1,20 +1,48 @@
-Write-Host "Setting up Git repository and pushing to GitHub..." -ForegroundColor Green
+# PowerShell script to push changes to GitHub
+Write-Host "🚀 Pushing Cloud Architecture Designer updates to GitHub..." -ForegroundColor Green
 
-# Initialize Git repository
-git init
+# Check git status
+Write-Host "📊 Checking git status..." -ForegroundColor Yellow
+git status
 
-# Add all files
+# Add all changes
+Write-Host "📁 Adding all changes..." -ForegroundColor Yellow
 git add .
 
-# Create initial commit
-git commit -m "Initial commit: Azure Cloud Architecture Designer Tool"
+# Commit with descriptive message
+Write-Host "💾 Committing changes..." -ForegroundColor Yellow
+git commit -m "✨ Major UI/UX improvements and bug fixes
 
-# Add the remote repository
-git remote add origin https://github.com/0x1b2b/cloud-website.git
+🔧 Fixed Issues:
+- Dropdown menus now work properly with smart positioning
+- Folder functionality in palette now collapses/expands correctly
+- Export menu positioning prevents screen overflow
+- Component dragging and selection improved
+- All initialization functions properly called
 
-# Push to main branch
-git branch -M main
-git push -u origin main
+🎨 UI Enhancements:
+- Smart dropdown positioning (above/below, left/right alignment)
+- Enhanced folder animations and interactions
+- Improved event handling and conflict resolution
+- Better debugging and error handling
+- Responsive dropdown positioning on window resize
 
-Write-Host "Done! Your code has been pushed to GitHub." -ForegroundColor Green
-Read-Host "Press Enter to continue" 
+🐛 Bug Fixes:
+- Fixed conflicting event listeners in dropdown initialization
+- Resolved folder toggle conflicts between functions
+- Fixed missing initialization in DOMContentLoaded
+- Improved z-index management for dropdowns
+- Enhanced error handling for missing elements
+
+📱 Features:
+- Automatic dropdown repositioning on window resize
+- Comprehensive debugging functions (testDropdowns, testFolders)
+- Enhanced console logging for troubleshooting
+- Improved accessibility and user experience"
+
+# Push to GitHub
+Write-Host "🚀 Pushing to GitHub..." -ForegroundColor Yellow
+git push origin main
+
+Write-Host "✅ Successfully pushed to GitHub!" -ForegroundColor Green
+Write-Host "🌐 View your repository at: https://github.com/0x1b2b/cloud-website.git" -ForegroundColor Cyan 

@@ -409,7 +409,7 @@ function initializeEventListeners() {
     // Toolbar buttons
     document.getElementById('undoBtn').addEventListener('click', undo);
     document.getElementById('clearBtn').addEventListener('click', clearCanvas);
-    document.getElementById('saveBtn').addEventListener('click', saveScreenshot);
+    // Export button now uses dropdown system - no direct click handler needed
     // Templates button now uses dropdown system instead of showTemplatesMenu
     
     // Add event listeners for template items in dropdown
@@ -431,7 +431,7 @@ function initializeEventListeners() {
             }
         }
     });
-    document.getElementById('exportBtn').addEventListener('click', exportToJSON);
+    // Export button now uses dropdown system - no direct click handler needed
     document.getElementById('importBtn').addEventListener('click', openFileDialog);
     
     // Zoom controls
@@ -485,27 +485,59 @@ function initializeEventListeners() {
 
 // Initialize palette with folder functionality
 function initializePalette() {
+    console.log('Initializing palette folders...');
+    
     // Folder toggle functionality
-    document.querySelectorAll('.folder-header').forEach(header => {
-        header.addEventListener('click', function() {
+    const folderHeaders = document.querySelectorAll('.folder-header');
+    console.log('Found folder headers:', folderHeaders.length);
+    
+    folderHeaders.forEach((header, index) => {
+        const folderName = header.dataset.folder;
+        const folderContent = document.getElementById(`${folderName}-folder`);
+        const toggle = header.querySelector('.folder-toggle');
+        
+        console.log(`Folder ${index}:`, {
+            name: folderName,
+            content: folderContent ? folderContent.id : 'not found',
+            toggle: toggle ? toggle.textContent : 'not found'
+        });
+        
+        // Remove any existing event listeners to prevent conflicts
+        const newHeader = header.cloneNode(true);
+        header.parentNode.replaceChild(newHeader, header);
+        
+        newHeader.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
             const folderName = this.dataset.folder;
             const folderContent = document.getElementById(`${folderName}-folder`);
             const toggle = this.querySelector('.folder-toggle');
             
-            if (folderContent.classList.contains('collapsed')) {
-                folderContent.classList.remove('collapsed');
-                this.classList.remove('collapsed');
-                toggle.textContent = '▼';
+            console.log('Folder clicked:', folderName, 'Content found:', !!folderContent);
+            
+            if (folderContent && toggle) {
+                if (folderContent.classList.contains('collapsed')) {
+                    folderContent.classList.remove('collapsed');
+                    this.classList.remove('collapsed');
+                    toggle.textContent = '▼';
+                    console.log('Folder expanded:', folderName);
+                } else {
+                    folderContent.classList.add('collapsed');
+                    this.classList.add('collapsed');
+                    toggle.textContent = '▶';
+                    console.log('Folder collapsed:', folderName);
+                }
             } else {
-                folderContent.classList.add('collapsed');
-                this.classList.add('collapsed');
-                toggle.textContent = '▶';
+                console.warn('Folder content or toggle not found for:', folderName);
             }
         });
     });
     
     // Initialize drag and drop for palette items
     initializePaletteDragAndDrop();
+    
+    console.log('Palette initialization complete');
 }
 
 // Initialize drag and drop for palette items
@@ -2940,25 +2972,58 @@ let lastVersionSave = Date.now();
 
 // Dropdown Menu Management
 function initializeDropdowns() {
-    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    console.log('Initializing dropdowns...');
     
-    dropdownToggles.forEach(toggle => {
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    console.log('Found dropdown toggles:', dropdownToggles.length);
+    
+    dropdownToggles.forEach((toggle, index) => {
         const menu = toggle.nextElementSibling;
+        console.log(`Dropdown ${index}:`, toggle.id, 'Menu:', menu ? menu.id : 'not found');
         
-        toggle.addEventListener('click', (e) => {
+        // Remove any existing event listeners
+        const newToggle = toggle.cloneNode(true);
+        toggle.parentNode.replaceChild(newToggle, toggle);
+        
+        newToggle.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
+            console.log('Dropdown toggle clicked:', newToggle.id);
             
             // Close other dropdowns
             dropdownToggles.forEach(otherToggle => {
-                if (otherToggle !== toggle) {
+                if (otherToggle !== newToggle) {
                     otherToggle.classList.remove('active');
-                    otherToggle.nextElementSibling.classList.remove('active');
+                    const otherMenu = otherToggle.nextElementSibling;
+                    if (otherMenu && otherMenu.classList.contains('dropdown-menu')) {
+                        otherMenu.classList.remove('active');
+                        // Reset positioning
+                        otherMenu.style.top = '';
+                        otherMenu.style.left = '';
+                        otherMenu.style.right = '';
+                        otherMenu.style.bottom = '';
+                    }
                 }
             });
             
             // Toggle current dropdown
-            toggle.classList.toggle('active');
-            menu.classList.toggle('active');
+            newToggle.classList.toggle('active');
+            if (menu && menu.classList.contains('dropdown-menu')) {
+                menu.classList.toggle('active');
+                
+                if (menu.classList.contains('active')) {
+                    // Smart positioning to prevent overflow
+                    positionDropdown(menu, newToggle);
+                } else {
+                    // Reset positioning when closing
+                    menu.style.top = '';
+                    menu.style.left = '';
+                    menu.style.right = '';
+                    menu.style.bottom = '';
+                }
+                
+                console.log('Dropdown toggled:', menu.classList.contains('active'));
+            }
         });
     });
     
@@ -2967,21 +3032,121 @@ function initializeDropdowns() {
         if (!e.target.closest('.tool-group')) {
             dropdownToggles.forEach(toggle => {
                 toggle.classList.remove('active');
-                toggle.nextElementSibling.classList.remove('active');
+                const menu = toggle.nextElementSibling;
+                if (menu && menu.classList.contains('dropdown-menu')) {
+                    menu.classList.remove('active');
+                }
             });
         }
     });
     
     // Handle dropdown item clicks
     const dropdownItems = document.querySelectorAll('.dropdown-item');
+    console.log('Found dropdown items:', dropdownItems.length);
+    
     dropdownItems.forEach(item => {
         item.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
-            const toggle = item.closest('.tool-group').querySelector('.dropdown-toggle');
-            toggle.classList.remove('active');
-            item.closest('.dropdown-menu').classList.remove('active');
+            console.log('Dropdown item clicked:', item.textContent);
+            
+            const toolGroup = item.closest('.tool-group');
+            if (toolGroup) {
+                const toggle = toolGroup.querySelector('.dropdown-toggle');
+                const menu = item.closest('.dropdown-menu');
+                
+                if (toggle) toggle.classList.remove('active');
+                if (menu) menu.classList.remove('active');
+            }
         });
     });
+    
+    console.log('Dropdown initialization complete');
+    
+    // Handle window resize to reposition active dropdowns
+    window.addEventListener('resize', () => {
+        const activeDropdowns = document.querySelectorAll('.dropdown-menu.active');
+        activeDropdowns.forEach(menu => {
+            const toggle = menu.previousElementSibling;
+            if (toggle && toggle.classList.contains('dropdown-toggle')) {
+                positionDropdown(menu, toggle);
+            }
+        });
+    });
+    
+    // Test dropdown functionality
+    setTimeout(() => {
+        const testToggle = document.querySelector('.dropdown-toggle');
+        if (testToggle) {
+            console.log('Testing dropdown toggle:', testToggle.id);
+            testToggle.click();
+            setTimeout(() => {
+                const menu = testToggle.nextElementSibling;
+                if (menu && menu.classList.contains('dropdown-menu')) {
+                    console.log('Dropdown menu found and toggled:', menu.classList.contains('active'));
+                } else {
+                    console.log('Dropdown menu not found or not properly structured');
+                }
+            }, 100);
+        } else {
+            console.log('No dropdown toggles found');
+        }
+    }, 1000);
+}
+
+// Smart dropdown positioning to prevent overflow
+function positionDropdown(menu, toggle) {
+    const toggleRect = toggle.getBoundingClientRect();
+    const menuRect = menu.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    // Reset any previous positioning
+    menu.style.top = '';
+    menu.style.left = '';
+    menu.style.right = '';
+    menu.style.bottom = '';
+    
+    // Calculate available space
+    const spaceBelow = viewportHeight - toggleRect.bottom;
+    const spaceAbove = toggleRect.top;
+    const spaceRight = viewportWidth - toggleRect.left;
+    const spaceLeft = toggleRect.right;
+    
+    // Check if menu would overflow vertically
+    if (spaceBelow < menuRect.height && spaceAbove > menuRect.height) {
+        // Position above the toggle
+        menu.style.bottom = '100%';
+        menu.style.top = 'auto';
+        menu.style.marginTop = '0';
+        menu.style.marginBottom = '0.5rem';
+        console.log('Dropdown positioned above toggle');
+    } else {
+        // Default position below toggle
+        menu.style.top = '100%';
+        menu.style.bottom = 'auto';
+        menu.style.marginTop = '0.5rem';
+        menu.style.marginBottom = '0';
+        console.log('Dropdown positioned below toggle');
+    }
+    
+    // Check if menu would overflow horizontally
+    if (spaceRight < menuRect.width && spaceLeft > menuRect.width) {
+        // Position to the left of the toggle
+        menu.style.right = '0';
+        menu.style.left = 'auto';
+        console.log('Dropdown positioned to the left of toggle');
+    } else if (spaceRight < menuRect.width) {
+        // Position with right edge aligned to toggle
+        menu.style.right = '0';
+        menu.style.left = 'auto';
+        console.log('Dropdown right-aligned to toggle');
+    } else {
+        // Default position (left-aligned)
+        menu.style.left = '0';
+        menu.style.right = 'auto';
+        console.log('Dropdown left-aligned to toggle');
+    }
 }
 
 // Enhanced smooth animations
@@ -3055,30 +3220,7 @@ function enhanceUserExperience() {
         });
     });
     
-    // Smooth folder animations
-    const folderHeaders = document.querySelectorAll('.folder-header');
-    
-    folderHeaders.forEach(header => {
-        header.addEventListener('click', () => {
-            const content = header.nextElementSibling;
-            const toggle = header.querySelector('.folder-toggle');
-            
-            if (content.classList.contains('collapsed')) {
-                content.style.maxHeight = content.scrollHeight + 'px';
-                setTimeout(() => {
-                    content.style.maxHeight = '300px';
-                }, 10);
-            } else {
-                content.style.maxHeight = content.scrollHeight + 'px';
-                setTimeout(() => {
-                    content.style.maxHeight = '0px';
-                }, 10);
-            }
-            
-            header.classList.toggle('collapsed');
-            content.classList.toggle('collapsed');
-        });
-    });
+    // Note: Folder animations are handled in initializePalette() to avoid conflicts
 }
 
 // Enhanced loading states
@@ -3179,12 +3321,246 @@ function testPanMode() {
     console.log('Should allow spacebar:', !isInInput && !spacebarPressed);
 }
 
+// Debug function for dropdowns (can be called from console)
+function testDropdowns() {
+    console.log('=== Dropdown Debug ===');
+    
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    console.log('Found dropdown toggles:', dropdownToggles.length);
+    
+    dropdownToggles.forEach((toggle, index) => {
+        console.log(`Toggle ${index}:`, {
+            id: toggle.id,
+            classList: Array.from(toggle.classList),
+            nextElementSibling: toggle.nextElementSibling ? {
+                tagName: toggle.nextElementSibling.tagName,
+                classList: Array.from(toggle.nextElementSibling.classList),
+                id: toggle.nextElementSibling.id
+            } : 'none'
+        });
+    });
+    
+    const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+    console.log('Found dropdown menus:', dropdownMenus.length);
+    
+    dropdownMenus.forEach((menu, index) => {
+        console.log(`Menu ${index}:`, {
+            id: menu.id,
+            classList: Array.from(menu.classList),
+            style: {
+                display: menu.style.display,
+                visibility: menu.style.visibility,
+                opacity: menu.style.opacity,
+                zIndex: menu.style.zIndex
+            }
+        });
+    });
+    
+    // Test clicking first dropdown
+    if (dropdownToggles.length > 0) {
+        console.log('Testing click on first dropdown...');
+        dropdownToggles[0].click();
+    }
+}
+
+// Debug function for folders (can be called from console)
+function testFolders() {
+    console.log('=== Folder Debug ===');
+    
+    const folderHeaders = document.querySelectorAll('.folder-header');
+    console.log('Found folder headers:', folderHeaders.length);
+    
+    folderHeaders.forEach((header, index) => {
+        const folderName = header.dataset.folder;
+        const folderContent = document.getElementById(`${folderName}-folder`);
+        const toggle = header.querySelector('.folder-toggle');
+        
+        console.log(`Folder ${index}:`, {
+            name: folderName,
+            headerClassList: Array.from(header.classList),
+            contentFound: !!folderContent,
+            contentClassList: folderContent ? Array.from(folderContent.classList) : 'none',
+            toggleText: toggle ? toggle.textContent : 'none'
+        });
+    });
+    
+    // Test clicking first folder
+    if (folderHeaders.length > 0) {
+        console.log('Testing click on first folder...');
+        folderHeaders[0].click();
+    }
+}
+
+// PDF Export Function
+function exportToPDF() {
+    showNotification('Generating PDF...', 'info');
+    
+    const canvas = document.getElementById('architectureCanvas');
+    const canvasContent = document.getElementById('canvasContent');
+    
+    // Create a temporary container for the export
+    const exportContainer = document.createElement('div');
+    exportContainer.style.cssText = `
+        position: absolute;
+        left: -9999px;
+        top: -9999px;
+        width: ${canvasContent.scrollWidth}px;
+        height: ${canvasContent.scrollHeight}px;
+        background: ${isDarkTheme ? '#1a1a1a' : '#ffffff'};
+        padding: 40px;
+        transform: none;
+    `;
+    
+    // Clone the canvas content
+    const clonedContent = canvasContent.cloneNode(true);
+    clonedContent.style.transform = 'none';
+    clonedContent.style.position = 'relative';
+    clonedContent.style.left = '0';
+    clonedContent.style.top = '0';
+    
+    exportContainer.appendChild(clonedContent);
+    document.body.appendChild(exportContainer);
+    
+    // Generate PDF
+    html2canvas(exportContainer, {
+        backgroundColor: isDarkTheme ? '#1a1a1a' : '#ffffff',
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        width: exportContainer.offsetWidth,
+        height: exportContainer.offsetHeight
+    }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('l', 'mm', 'a4');
+        
+        const imgWidth = 297; // A4 width in mm
+        const pageHeight = 210; // A4 height in mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+        
+        // Add title
+        pdf.setFontSize(20);
+        pdf.text('Azure Cloud Architecture', 20, 20);
+        pdf.setFontSize(12);
+        pdf.text(`Generated on: ${new Date().toLocaleDateString()}`, 20, 30);
+        
+        // Add the image
+        pdf.addImage(imgData, 'PNG', 0, 40, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+        
+        // Add additional pages if needed
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            pdf.addPage();
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+        }
+        
+        // Save the PDF
+        pdf.save('azure-architecture.pdf');
+        
+        // Clean up
+        document.body.removeChild(exportContainer);
+        showNotification('PDF exported successfully!', 'success');
+    }).catch(error => {
+        console.error('Error generating PDF:', error);
+        showNotification('Error generating PDF', 'error');
+        document.body.removeChild(exportContainer);
+    });
+}
+
+// SVG Export Function
+function exportToSVG() {
+    const canvas = document.getElementById('architectureCanvas');
+    const canvasContent = document.getElementById('canvasContent');
+    
+    // Create SVG wrapper
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', canvasContent.scrollWidth);
+    svg.setAttribute('height', canvasContent.scrollHeight);
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    
+    // Add background
+    const background = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    background.setAttribute('width', '100%');
+    background.setAttribute('height', '100%');
+    background.setAttribute('fill', isDarkTheme ? '#1a1a1a' : '#ffffff');
+    svg.appendChild(background);
+    
+    // Convert components to SVG
+    const components = canvasContent.querySelectorAll('.canvas-component');
+    components.forEach(component => {
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        const x = parseInt(component.style.left);
+        const y = parseInt(component.style.top);
+        const width = component.offsetWidth;
+        const height = component.offsetHeight;
+        
+        rect.setAttribute('x', x);
+        rect.setAttribute('y', y);
+        rect.setAttribute('width', width);
+        rect.setAttribute('height', height);
+        rect.setAttribute('fill', '#f0f0f0');
+        rect.setAttribute('stroke', '#333');
+        rect.setAttribute('stroke-width', '1');
+        
+        svg.appendChild(rect);
+        
+        // Add text
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', x + width/2);
+        text.setAttribute('y', y + height/2);
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('dominant-baseline', 'middle');
+        text.setAttribute('font-family', 'Arial, sans-serif');
+        text.setAttribute('font-size', '12');
+        text.textContent = component.querySelector('.component-label').textContent;
+        
+        svg.appendChild(text);
+    });
+    
+    // Convert to string and download
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const blob = new Blob([svgData], {type: 'image/svg+xml'});
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'azure-architecture.svg';
+    link.click();
+    
+    URL.revokeObjectURL(url);
+    showNotification('SVG exported successfully!', 'success');
+}
+
 // Initialize enhanced UX
 document.addEventListener('DOMContentLoaded', function() {
-    // ... existing code ...
+    console.log('Initializing Cloud Architecture Designer...');
     
+    // Initialize core functionality
+    initializeTheme();
+    initializeEventListeners();
+    initializePalette();
+    initializeCanvas();
+    initializeDropdowns();
+    initializeDocsNavigation();
+    initializeContactForm();
+    initializeTerminal();
+    
+    // Load saved data
+    loadSavedData();
+    
+    // Initialize enhanced features
     enhanceUserExperience();
     enhanceKeyboardShortcuts();
+    addSmoothAnimations();
     
-    // ... rest of existing code ...
-}); 
+    // Show landing page by default
+    showLanding();
+    
+    // Update status bar
+    updateStatusBar();
+    
+    console.log('Initialization complete!');
+});

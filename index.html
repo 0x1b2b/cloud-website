@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <!-- PDF and SVG Export Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -176,12 +179,29 @@
                         <button class="tool-btn" id="importBtn" title="Import Design">
                             <span class="btn-icon">📥</span>
                         </button>
-                        <button class="tool-btn" id="exportBtn" title="Export Design">
+                        <button class="tool-btn dropdown-toggle" id="exportBtn" title="Export Options">
                             <span class="btn-icon">📤</span>
+                            <span class="dropdown-arrow">▼</span>
                         </button>
-                        <button class="tool-btn primary" id="saveBtn" title="Save Screenshot">
-                            <span class="btn-icon">📸</span>
-                        </button>
+                        <div class="dropdown-menu" id="exportMenu">
+                            <div class="dropdown-header">Export Options</div>
+                            <button class="dropdown-item" onclick="saveScreenshot()">
+                                <span class="btn-icon">📸</span>
+                                <span>Screenshot (PNG)</span>
+                            </button>
+                            <button class="dropdown-item" onclick="exportToPDF()">
+                                <span class="btn-icon">📄</span>
+                                <span>PDF Document</span>
+                            </button>
+                            <button class="dropdown-item" onclick="exportToSVG()">
+                                <span class="btn-icon">🔷</span>
+                                <span>Vector (SVG)</span>
+                            </button>
+                            <button class="dropdown-item" onclick="exportToJSON()">
+                                <span class="btn-icon">📋</span>
+                                <span>JSON Data</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
