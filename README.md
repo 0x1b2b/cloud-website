@@ -155,7 +155,3 @@ For issues, questions, or feature requests, please open an issue on GitHub.
 ---
 
 **Built with ❤️ for the Azure community** 
-=======
-# cloud-website
-A fun, interactive web app showcasing cloud concepts with CSS animations and JavaScript.
->>>>>>> 9e4905aa5251f187f9c69a79692d275bb14ff900
