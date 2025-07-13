@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Azure Cloud Architecture Designer
 
 A professional-grade web-based tool for designing, visualizing, and deploying Azure cloud architectures with enterprise features and export options.
@@ -156,7 +155,73 @@ For issues, questions, or feature requests, please open an issue on GitHub.
 ---
 
 **Built with ❤️ for the Azure community** 
-=======
-# cloud-website
-A fun, interactive web app showcasing cloud concepts with CSS animations and JavaScript.
->>>>>>> 9e4905aa5251f187f9c69a79692d275bb14ff900
+
+## 🚀 Push to GitHub Commands:
+
+### 1. **Check Status**:
+```bash
+git status
+```
+
+### 2. **Add All Files**:
+```bash
+git add .
+```
+
+### 3. **Commit Changes**:
+```bash
+git commit -m "✨ Major UI/UX improvements and bug fixes
+
+🔧 Fixed Issues:
+- Dropdown menus now work properly with smart positioning
+- Folder functionality in palette now collapses/expands correctly
+- Export menu positioning prevents screen overflow
+- Component dragging and selection improved
+- All initialization functions properly called
+
+ UI Enhancements:
+- Smart dropdown positioning (above/below, left/right alignment)
+- Enhanced folder animations and interactions
+- Improved event handling and conflict resolution
+- Better debugging and error handling
+- Responsive dropdown positioning on window resize
+
+ Bug Fixes:
+- Fixed conflicting event listeners in dropdown initialization
+- Resolved folder toggle conflicts between functions
+- Fixed missing initialization in DOMContentLoaded
+- Improved z-index management for dropdowns
+- Enhanced error handling for missing elements
+
+📱 Features:
+- Automatic dropdown repositioning on window resize
+- Comprehensive debugging functions (testDropdowns, testFolders)
+- Enhanced console logging for troubleshooting
+- Improved accessibility and user experience"
+```
+
+### 4. **Pull with Allow Unrelated Histories** (if needed):
+```bash
+git pull origin main --allow-unrelated-histories
+```
+
+### 5. **Push to GitHub**:
+```bash
+git push origin main
+```
+
+##  Run These Commands One by One:
+
+1. **Copy and paste each command** into your git terminal
+2. **Press Enter** after each command
+3. **Wait for it to complete** before running the next one
+4. **If you get a merge conflict**, run the pull command first, then push
+
+## 🎯 What This Will Do:
+
+- ✅ **Add all your files** to git
+- ✅ **Create a detailed commit** with all the improvements
+- ✅ **Resolve any merge conflicts** with `--allow-unrelated-histories`
+- ✅ **Push everything** to your GitHub repository
+
+Try running these commands one by one in your git terminal! 
