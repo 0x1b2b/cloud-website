@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Azure Cloud Architecture Designer
 
 A professional-grade web-based tool for designing, visualizing, and deploying Azure cloud architectures with enterprise features and export options.
@@ -155,3 +156,7 @@ For issues, questions, or feature requests, please open an issue on GitHub.
 ---
 
 **Built with ❤️ for the Azure community** 
+=======
+# cloud-website
+A fun, interactive web app showcasing cloud concepts with CSS animations and JavaScript.
+>>>>>>> 9e4905aa5251f187f9c69a79692d275bb14ff900
