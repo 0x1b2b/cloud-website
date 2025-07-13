@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Architecture Designer - Professional Azure Cloud Infrastructure Design Tool</title>
+    <meta name="description" content="Design, visualize, and deploy Azure cloud architectures with our professional drag-and-drop tool. Create enterprise-grade diagrams with ease.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="showLanding()" style="cursor: pointer;">
+                <span class="logo-icon">☁️</span>
+                <span class="logo-text">Cloud Architecture Designer</span>
+            </div>
+            <div class="nav-links">
+                <a href="#tool" class="nav-link">Tool</a>
+                <a href="#docs" class="nav-link">Documentation</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="themeToggle">
+                    <span class="toggle-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Landing Page -->
+    <section class="landing-page" id="landing">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Design, Visualise, Deploy — Cloud Architecture Made Simple.</h1>
+                <p class="hero-subtitle">A professional-grade web tool to create and showcase Azure cloud deployment architectures with enterprise features and export options.</p>
+                <div class="hero-buttons">
+                    <button class="cta-button primary" onclick="showTool()">Start Designing</button>
+                    <button class="cta-button secondary" onclick="showDocs()">View Documentation</button>
+                </div>
+            </div>
+            
+
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Intuitive Design</h3>
+                <p>Drag-and-drop interface with snap-to-grid precision and mindmap-style connections</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">☁️</div>
+                <h3>Azure Native</h3>
+                <p>Official Azure service icons and components organized in logical categories</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📸</div>
+                <h3>Export Ready</h3>
+                <p>High-resolution screenshots and JSON export for documentation and sharing</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Professional Features</h3>
+                <p>Templates, undo/redo, zoom/pan, and auto-save for enterprise workflows</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tool Page -->
+    <section class="tool-page" id="tool" style="display: none;">
+        <div class="tool-container">
+            <!-- Top Toolbar -->
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <div class="tool-group">
+                        <button class="tool-btn primary" id="undoBtn" disabled title="Undo (Ctrl+Z)">
+                            <span class="btn-icon">↶</span>
+                        </button>
+                        <button class="tool-btn" id="clearBtn" title="Clear Canvas">
+                            <span class="btn-icon">🗑</span>
+                        </button>
+                    </div>
+                    
+                    <div class="tool-group">
+                        <button class="tool-btn dropdown-toggle" id="templatesBtn" title="Templates">
+                            <span class="btn-icon">📋</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-menu" id="templatesMenu">
+                            <div class="dropdown-header">Quick Templates</div>
+                            <div class="template-item" data-template="webApp">
+                                <div class="template-icon">🌐</div>
+                                <div class="template-info">
+                                    <h4>Web Application</h4>
+                                    <p>Basic web app with database and storage</p>
+                                </div>
+                            </div>
+                            <div class="template-item" data-template="microservices">
+                                <div class="template-icon">🔗</div>
+                                <div class="template-info">
+                                    <h4>Microservices</h4>
+                                    <p>Multi-service architecture with API gateway</p>
+                                </div>
+                            </div>
+                            <div class="template-item" data-template="serverless">
+                                <div class="template-icon">⚡</div>
+                                <div class="template-info">
+                                    <h4>Serverless</h4>
+                                    <p>Event-driven serverless architecture</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toolbar-center">
+                    <div class="view-controls">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn" id="zoomOutBtn" title="Zoom Out">-</button>
+                            <span class="zoom-level" id="zoomLevel">100%</span>
+                            <button class="zoom-btn" id="zoomInBtn" title="Zoom In">+</button>
+                            <button class="zoom-btn" id="resetZoomBtn" title="Reset View">⌂</button>
+                        </div>
+                        <div class="view-toggles">
+                            <button class="view-btn" onclick="togglePanMode()" title="Toggle Pan Mode (Space)" data-action="pan">
+                                <span class="btn-icon">✋</span>
+                            </button>
+                            <button class="view-btn" onclick="toggleGrid()" title="Toggle Grid (Ctrl+Shift+G)">
+                                <span class="btn-icon">⊞</span>
+                            </button>
+                            <button class="view-btn" onclick="toggleMinimap()" title="Toggle Minimap (Ctrl+Shift+M)">
+                                <span class="btn-icon">🗺</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toolbar-right">
+                    <div class="tool-group">
+                        <button class="tool-btn dropdown-toggle" id="advancedBtn" title="Advanced Tools">
+                            <span class="btn-icon">⚙</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-menu" id="advancedMenu">
+                            <div class="dropdown-header">Advanced Features</div>
+                            <button class="dropdown-item" onclick="toggleResizeMode()" title="Toggle Resize Mode (Ctrl+R)">
+                                <span class="btn-icon">⤡</span>
+                                <span>Resize Mode</span>
+                            </button>
+                            <button class="dropdown-item" onclick="showSearchPanel()" title="Search Components (Ctrl+F)">
+                                <span class="btn-icon">🔍</span>
+                                <span>Search</span>
+                            </button>
+                            <button class="dropdown-item" onclick="groupSelectedComponents()" title="Group Selected (Ctrl+G)">
+                                <span class="btn-icon">📦</span>
+                                <span>Group</span>
+                            </button>
+                            <button class="dropdown-item" onclick="showCostCalculator()" title="Cost Calculator (Ctrl+Shift+C)">
+                                <span class="btn-icon">💰</span>
+                                <span>Cost Analysis</span>
+                            </button>
+                            <button class="dropdown-item" onclick="showSecurityAnalysis()" title="Security Analysis (Ctrl+Shift+S)">
+                                <span class="btn-icon">🔒</span>
+                                <span>Security</span>
+                            </button>
+                            <button class="dropdown-item" onclick="showVersionHistory()" title="Version History">
+                                <span class="btn-icon">📚</span>
+                                <span>History</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="tool-group">
+                        <button class="tool-btn" id="importBtn" title="Import Design">
+                            <span class="btn-icon">📥</span>
+                        </button>
+                        <button class="tool-btn" id="exportBtn" title="Export Design">
+                            <span class="btn-icon">📤</span>
+                        </button>
+                        <button class="tool-btn primary" id="saveBtn" title="Save Screenshot">
+                            <span class="btn-icon">📸</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Tool Area -->
+            <div class="tool-main">
+                <!-- Left Panel - Folder-based Palette -->
+                <div class="palette-panel">
+                    <div class="palette-header">
+                        <h3 class="panel-title">Azure Components</h3>
+                    </div>
+                    
+                    <!-- Compute Services Folder -->
+                    <div class="palette-folder">
+                        <div class="folder-header" data-folder="compute">
+                            <span class="folder-icon">📁</span>
+                            <span class="folder-name">Compute</span>
+                            <span class="folder-toggle">▼</span>
+                        </div>
+                        <div class="folder-content" id="compute-folder">
+                            <div class="palette-item" draggable="true" data-type="service" data-service="vm">
+                                <div class="item-icon">🖥️</div>
+                                <span class="item-label">Virtual Machine</span>
+                            </div>
+                            <div class="palette-item" draggable="true" data-type="service" data-service="appservice">
+                                <div class="item-icon">🌐</div>
+                                <span class="item-label">App Service</span>
+                            </div>
+                            <div class="palette-item" draggable="true" data-type="service" data-service="function">
+                                <div class="item-icon">⚡</div>
+                                <span class="item-label">Function App</span>
+                            </div>
+                            <div class="palette-item" draggable="true" data-type="service" data-service="container">
+                                <div class="item-icon">📦</div>
+                                <span class="item-label">Container Instance</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Storage Services Folder -->
+                    <div class="palette-folder">
+                        <div class="folder-header" data-folder="storage">
+                            <span class="folder-icon">📁</span>
+                            <span class="folder-name">Storage</span>
+                            <span class="folder-toggle">▼</span>
+                        </div>
+                        <div class="folder-content" id="storage-folder">
+                            <div class="palette-item" draggable="true" data-type="service" data-service="storage">
+                                <div class="item-icon">📦</div>
+                                <span class="item-label">Storage Account</span>
+                            </div>
+                            <div class="palette-item" draggable="true" data-type="service" data-service="sql">
+                                <div class="item-icon">🗄️</div>
+                                <span class="item-label">SQL Database</span>
+                            </div>
+                            <div class="palette-item" draggable="true" data-type="service" data-service="cosmos">
+                                <div class="item-icon">🌌</div>
+                                <span class="item-label">Cosmos DB</span>
+                            </div>
+                            <div class="palette-item" draggable="true" data-type="service" data-service="redis">
+                                <div class="item-icon">🔴</div>
+                                <span class="item-label">Redis Cache</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Networking Folder -->
+                    <div class="palette-folder">
+                        <div class="folder-header" data-folder="networking">
+                            <span class="folder-icon">📁</span>
+                            <span class="folder-name">Networking</span>
+                            <span class="folder-toggle">▼</span>
+                        </div>
+                        <div class="folder-content" id="networking-folder">
+                            <div class="palette-item" draggable="true" data-type="service" data-service="vnet">
+                                <div class="item-icon">🌐</div>
+                                <span class="item-label">Virtual Network</span>
+                            </div>
+                            <div class="palette-item" draggable="true" data-type="service" data-service="loadbalancer">
+                                <div class="item-icon">⚖️</div>
+                                <span class="item-label">Load Balancer</span>
+                            </div>
+                            <div class="palette-item" draggable="true" data-type="service" data-service="gateway">
+                                <div class="item-icon">🚪</div>
+                                <span class="item-label">API Gateway</span>
+                            </div>
+                            <div class="palette-item" draggable="true" data-type="service" data-service="cdn">
+                                <div class="item-icon">🚀</div>
+                                <span class="item-label">CDN</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Folder -->
+                    <div class="palette-folder">
+                        <div class="folder-header" data-folder="security">
+                            <span class="folder-icon">📁</span>
+                            <span class="folder-name">Security</span>
+                            <span class="folder-toggle">▼</span>
+                        </div>
+                        <div class="folder-content" id="security-folder">
+                            <div class="palette-item" draggable="true" data-type="service" data-service="keyvault">
+                                <div class="item-icon">🔑</div>
+                                <span class="item-label">Key Vault</span>
+                            </div>
+                            <div class="palette-item" draggable="true" data-type="service" data-service="firewall">
+                                <div class="item-icon">🔥</div>
+                                <span class="item-label">Firewall</span>
+                            </div>
+                            <div class="palette-item" draggable="true" data-type="service" data-service="bastion">
+                                <div class="item-icon">🏰</div>
+                                <span class="item-label">Bastion</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Connections Folder -->
+                    <div class="palette-folder">
+                        <div class="folder-header" data-folder="connections">
+                            <span class="folder-icon">📁</span>
+                            <span class="folder-name">Connections</span>
+                            <span class="folder-toggle">▼</span>
+                        </div>
+                        <div class="folder-content" id="connections-folder">
+                            <div class="palette-item" draggable="true" data-type="connection" data-connection="data">
+                                <div class="item-icon">📊</div>
+                                <span class="item-label">Data Flow</span>
+                            </div>
+                            <div class="palette-item" draggable="true" data-type="connection" data-connection="network">
+                                <div class="item-icon">🌐</div>
+                                <span class="item-label">Network</span>
+                            </div>
+                            <div class="palette-item" draggable="true" data-type="connection" data-connection="security">
+                                <div class="item-icon">🔒</div>
+                                <span class="item-label">Security</span>
+                            </div>
+                            <div class="palette-item" draggable="true" data-type="connection" data-connection="management">
+                                <div class="item-icon">⚙️</div>
+                                <span class="item-label">Management</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center Canvas -->
+                <div class="canvas-container">
+                    <div class="canvas" id="architectureCanvas">
+                        <div class="canvas-grid"></div>
+                        <div class="canvas-content" id="canvasContent"></div>
+                    </div>
+                </div>
+
+                <!-- Right Panel - Properties -->
+                <div class="properties-panel">
+                    <h3 class="panel-title">Properties</h3>
+                    <div class="properties-content" id="propertiesContent">
+                        <p class="no-selection">Select a component to edit its properties</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <div class="status-item">
+                    <span>Components: <span id="componentCount">0</span></span>
+                </div>
+                <div class="status-item">
+                    <span>Zoom: <span id="statusZoom">100%</span></span>
+                </div>
+                <div class="status-item">
+                    <span>Position: <span id="mousePosition">0, 0</span></span>
+                </div>
+                <div class="status-item" id="panModeStatus" style="display: none;">
+                    <span>Pan Mode: <span style="color: var(--accent-color); font-weight: bold;">Active</span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Page -->
+    <section class="docs-page" id="docs" style="display: none;">
+        <div class="docs-container">
+            <div class="docs-sidebar">
+                <h3>Documentation</h3>
+                <nav class="docs-nav">
+                    <a href="#getting-started" class="docs-nav-link active">Getting Started</a>
+                    <a href="#components" class="docs-nav-link">Components</a>
+                    <a href="#connections" class="docs-nav-link">Connections</a>
+                    <a href="#templates" class="docs-nav-link">Templates</a>
+                    <a href="#premium" class="docs-nav-link">Premium Features</a>
+                    <a href="#export" class="docs-nav-link">Export & Import</a>
+                    <a href="#shortcuts" class="docs-nav-link">Keyboard Shortcuts</a>
+                </nav>
+            </div>
+            <div class="docs-content">
+                <div id="getting-started" class="docs-section">
+                    <h2>Getting Started</h2>
+                    <p>Welcome to Azure Architecture Designer! This tool helps you create professional Azure cloud architecture diagrams with ease.</p>
+                    <h3>Quick Start Guide</h3>
+                    <ol>
+                        <li><strong>Add Components:</strong> Drag Azure services from the left panel onto the canvas</li>
+                        <li><strong>Resize & Arrange:</strong> Use resize handles or the properties panel to adjust size and position</li>
+                        <li><strong>Group/Ungroup:</strong> Select multiple components and group/ungroup for easier management</li>
+                        <li><strong>Use Layers:</strong> Organize your architecture into layers</li>
+                        <li><strong>Analyze:</strong> Use the Cost Calculator and Security Analysis for insights</li>
+                        <li><strong>Export:</strong> Save your diagram as a screenshot or JSON file</li>
+                    </ol>
+                </div>
+                <div id="components" class="docs-section" style="display: none;">
+                    <h2>Azure Components</h2>
+                    <p>Our tool includes the most commonly used Azure services, organized by category. Each service supports variants, resizing, and advanced properties.</p>
+                    
+                    <h3>Compute Services</h3>
+                    <div class="component-grid">
+                        <div class="component-doc">
+                            <div class="component-doc-icon">🖥️</div>
+                            <div class="component-doc-info">
+                                <h4>Virtual Machine</h4>
+                                <p>IaaS compute resources for running applications</p>
+                            </div>
+                        </div>
+                        <div class="component-doc">
+                            <div class="component-doc-icon">🌐</div>
+                            <div class="component-doc-info">
+                                <h4>App Service</h4>
+                                <p>PaaS platform for web applications and APIs</p>
+                            </div>
+                        </div>
+                        <div class="component-doc">
+                            <div class="component-doc-icon">⚡</div>
+                            <div class="component-doc-info">
+                                <h4>Function App</h4>
+                                <p>Serverless compute for event-driven applications</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Storage Services</h3>
+                    <div class="component-grid">
+                        <div class="component-doc">
+                            <div class="component-doc-icon">📦</div>
+                            <div class="component-doc-info">
+                                <h4>Storage Account</h4>
+                                <p>Object storage for files, blobs, and data</p>
+                            </div>
+                        </div>
+                        <div class="component-doc">
+                            <div class="component-doc-icon">🗄️</div>
+                            <div class="component-doc-info">
+                                <h4>SQL Database</h4>
+                                <p>Managed relational database service</p>
+                            </div>
+                        </div>
+                        <div class="component-doc">
+                            <div class="component-doc-icon">🌌</div>
+                            <div class="component-doc-info">
+                                <h4>Cosmos DB</h4>
+                                <p>Globally distributed NoSQL database</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="connections" class="docs-section" style="display: none;">
+                    <h2>Connection Types</h2>
+                    <p>Use different connection types to represent various relationships between your Azure services. Connection lines can be labeled and styled.</p>
+                    
+                    <div class="connection-docs">
+                        <div class="connection-doc">
+                            <div class="connection-doc-line data"></div>
+                            <div class="connection-doc-info">
+                                <h4>Data Flow</h4>
+                                <p>Represents data movement between services</p>
+                            </div>
+                        </div>
+                        <div class="connection-doc">
+                            <div class="connection-doc-line network"></div>
+                            <div class="connection-doc-info">
+                                <h4>Network</h4>
+                                <p>Shows network connectivity and routing</p>
+                            </div>
+                        </div>
+                        <div class="connection-doc">
+                            <div class="connection-doc-line security"></div>
+                            <div class="connection-doc-info">
+                                <h4>Security</h4>
+                                <p>Indicates security relationships and policies</p>
+                            </div>
+                        </div>
+                        <div class="connection-doc">
+                            <div class="connection-doc-line management"></div>
+                            <div class="connection-doc-info">
+                                <h4>Management</h4>
+                                <p>Shows management and monitoring connections</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="templates" class="docs-section" style="display: none;">
+                    <h2>Architecture Templates</h2>
+                    <p>Jump-start your design with pre-built architecture templates, or save/load your own custom templates.</p>
+                    
+                    <div class="template-docs">
+                        <div class="template-doc">
+                            <h3>Web Application</h3>
+                            <p>Basic web app with database and storage</p>
+                            <ul>
+                                <li>App Service for web hosting</li>
+                                <li>SQL Database for data storage</li>
+                                <li>Storage Account for file storage</li>
+                            </ul>
+                        </div>
+                        <div class="template-doc">
+                            <h3>Microservices</h3>
+                            <p>Multi-service architecture with API gateway</p>
+                            <ul>
+                                <li>API Gateway for routing</li>
+                                <li>Multiple App Services for services</li>
+                                <li>Separate databases per service</li>
+                            </ul>
+                        </div>
+                        <div class="template-doc">
+                            <h3>Serverless</h3>
+                            <p>Event-driven serverless architecture</p>
+                            <ul>
+                                <li>Function Apps for compute</li>
+                                <li>Cosmos DB for data</li>
+                                <li>CDN for content delivery</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="premium" class="docs-section" style="display: none;">
+                    <h2>Premium Features</h2>
+                    <ul>
+                        <li><strong>Component Resizing:</strong> Drag handles or use the properties panel to resize components</li>
+                        <li><strong>Component Grouping/Ungrouping:</strong> Select multiple components and group/ungroup for easier management</li>
+                        <li><strong>Multiple Canvas Layers:</strong> Organize your architecture into layers</li>
+                        <li><strong>Advanced Search & Filtering:</strong> Search components by name, type, or property (Ctrl+F)</li>
+                        <li><strong>Cost Calculator:</strong> Estimate monthly/annual Azure costs for your architecture (💰 button or Ctrl+Shift+C)</li>
+                        <li><strong>Security Analysis:</strong> Get security best-practice feedback and a security score (🔒 button or Ctrl+Shift+S)</li>
+                        <li><strong>Annotations:</strong> Add sticky notes/comments to your diagram</li>
+                        <li><strong>Minimap:</strong> Navigate large diagrams with a minimap (🗺 button or Ctrl+Shift+M)</li>
+                        <li><strong>Version History:</strong> View and restore previous versions of your architecture</li>
+                        <li><strong>Copy/Paste/Duplicate/Cut:</strong> Full clipboard support for components</li>
+                        <li><strong>Component Variants:</strong> Choose different styles/tiers for each Azure service</li>
+                        <li><strong>Enhanced Properties Panel:</strong> Edit size, position, layer, variant, and more</li>
+                        <li><strong>Status Bar:</strong> Live stats for components, connections, cost, security, and autosave</li>
+                        <li><strong>Grid Customization:</strong> Toggle grid and adjust grid size</li>
+                        <li><strong>Template Save/Load:</strong> Save your own templates and load them later</li>
+                    </ul>
+                </div>
+                <div id="export" class="docs-section" style="display: none;">
+                    <h2>Export & Import</h2>
+                    <p>Share and collaborate on your Azure architectures:</p>
+                    <h3>Screenshot Export</h3>
+                    <p>Save high-resolution PNG images of your diagrams for documentation and presentations.</p>
+                    <h3>JSON Export/Import</h3>
+                    <p>Export your architecture as JSON to share with team members or import existing designs.</p>
+                    <h3>Auto-Save</h3>
+                    <p>Your work is automatically saved to your browser's local storage.</p>
+                </div>
+                <div id="shortcuts" class="docs-section" style="display: none;">
+                    <h2>Keyboard Shortcuts</h2>
+                    <p>Speed up your workflow with these keyboard shortcuts:</p>
+                    <div class="shortcuts-grid">
+                        <div class="shortcut"><kbd>Ctrl + Z</kbd><span>Undo</span></div>
+                        <div class="shortcut"><kbd>Ctrl + Shift + Z</kbd><span>Redo</span></div>
+                        <div class="shortcut"><kbd>Ctrl + S</kbd><span>Save screenshot</span></div>
+                        <div class="shortcut"><kbd>Ctrl + O</kbd><span>Import JSON</span></div>
+                        <div class="shortcut"><kbd>Ctrl + E</kbd><span>Export JSON</span></div>
+                        <div class="shortcut"><kbd>Ctrl + =</kbd><span>Zoom in</span></div>
+                        <div class="shortcut"><kbd>Ctrl + -</kbd><span>Zoom out</span></div>
+                        <div class="shortcut"><kbd>Ctrl + 0</kbd><span>Reset zoom</span></div>
+                        <div class="shortcut"><kbd>Delete</kbd><span>Delete selected</span></div>
+                        <div class="shortcut"><kbd>Ctrl + Shift + T</kbd><span>Open terminal</span></div>
+                        <div class="shortcut"><kbd>Ctrl + R</kbd><span>Toggle resize mode</span></div>
+                        <div class="shortcut"><kbd>Ctrl + F</kbd><span>Search components</span></div>
+                        <div class="shortcut"><kbd>Ctrl + G</kbd><span>Group selected</span></div>
+                        <div class="shortcut"><kbd>Ctrl + Shift + G</kbd><span>Ungroup selected</span></div>
+                        <div class="shortcut"><kbd>Ctrl + L</kbd><span>Add layer</span></div>
+                        <div class="shortcut"><kbd>Ctrl + Shift + L</kbd><span>Delete layer</span></div>
+                        <div class="shortcut"><kbd>Ctrl + A</kbd><span>Select all</span></div>
+                        <div class="shortcut"><kbd>Ctrl + D</kbd><span>Deselect all</span></div>
+                        <div class="shortcut"><kbd>Ctrl + C</kbd><span>Copy selected</span></div>
+                        <div class="shortcut"><kbd>Ctrl + V</kbd><span>Paste</span></div>
+                        <div class="shortcut"><kbd>Ctrl + X</kbd><span>Cut selected</span></div>
+                        <div class="shortcut"><kbd>Ctrl + Shift + S</kbd><span>Save as template</span></div>
+                        <div class="shortcut"><kbd>Ctrl + Shift + O</kbd><span>Open template</span></div>
+                        <div class="shortcut"><kbd>Ctrl + Shift + P</kbd><span>Toggle properties panel</span></div>
+                        <div class="shortcut"><kbd>Ctrl + Shift + M</kbd><span>Toggle minimap</span></div>
+                        <div class="shortcut"><kbd>Ctrl + Shift + G</kbd><span>Toggle grid</span></div>
+                        <div class="shortcut"><kbd>Ctrl + Shift + A</kbd><span>Add annotation</span></div>
+                        <div class="shortcut"><kbd>Ctrl + Shift + C</kbd><span>Cost calculator</span></div>
+                        <div class="shortcut"><kbd>Ctrl + Shift + S</kbd><span>Security analysis</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Page -->
+    <section class="contact-page" id="contact" style="display: none;">
+        <div class="contact-container">
+            <div class="contact-header">
+                <h1>Get in Touch</h1>
+                <p>Have questions, suggestions, or need help with Azure Architecture Designer?</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p>support@azure-designer.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🌐</div>
+                        <div class="contact-details">
+                            <h4>Website</h4>
+                            <p>azure-designer.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">💬</div>
+                        <div class="contact-details">
+                            <h4>Discord</h4>
+                            <p>Join our community</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Send us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="feature">Feature Request</option>
+                                <option value="bug">Bug Report</option>
+                                <option value="support">Technical Support</option>
+                                <option value="feedback">Feedback</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="contact-footer">
+                <h3>Frequently Asked Questions</h3>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h4>Is Azure Architecture Designer free?</h4>
+                        <p>Yes, the basic version is completely free to use. We offer premium features for enterprise users.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Can I export my diagrams?</h4>
+                        <p>Absolutely! You can export as high-resolution PNG screenshots or JSON files for sharing and collaboration.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Do you support other cloud providers?</h4>
+                        <p>Currently, we focus on Azure services. We're considering adding support for AWS and Google Cloud in the future.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>How do I save my work?</h4>
+                        <p>Your work is automatically saved to your browser's local storage. You can also export your designs as JSON files.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hidden Terminal (Easter Egg) -->
+    <div class="terminal-overlay" id="terminalOverlay">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <span class="terminal-title">Azure Designer Terminal</span>
+                <button class="terminal-close" onclick="hideTerminal()">×</button>
+            </div>
+            <div class="terminal-content">
+                <div class="terminal-output" id="terminalOutput">
+                    <div class="terminal-line">Azure Designer Terminal v1.0.0</div>
+                    <div class="terminal-line">Type 'help' for available commands</div>
+                    <div class="terminal-line">></div>
+                </div>
+                <input type="text" class="terminal-input" id="terminalInput" placeholder="Enter command...">
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
