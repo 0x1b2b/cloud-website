@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Azure Cloud Architecture Designer
 
 A professional-grade web-based tool for designing, visualizing, and deploying Azure cloud architectures with enterprise features and export options.
