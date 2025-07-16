@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloud Designer Test Dashboard</title>
+  <link rel="stylesheet" href="test-dashboard.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6fa;
+      margin: 0;
+      padding: 0;
+    }
+    .dashboard {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 24px 20px 32px 20px;
+      margin-top: 32px;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5em;
+      color: #3a3a3a;
+      text-align: center;
+    }
+    .section {
+      margin-bottom: 2em;
+    }
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5em;
+      color: #2d5be3;
+    }
+    .test-list, .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .test-item, .check-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.7em;
+      padding: 0.5em 0.7em;
+      border-radius: 6px;
+      background: #f8fafc;
+      transition: background 0.2s;
+    }
+    .test-item.pass {
+      background: #e6fbe6;
+    }
+    .test-item.fail {
+      background: #ffeaea;
+    }
+    .test-status {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      margin-right: 0.7em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1em;
+    }
+    .test-status.pass {
+      background: #51cf66;
+      color: #fff;
+    }
+    .test-status.fail {
+      background: #ff6b6b;
+      color: #fff;
+    }
+    .test-status.pending {
+      background: #ffe066;
+      color: #fff;
+    }
+    .check-item input[type=checkbox] {
+      margin-right: 0.7em;
+      accent-color: #2d5be3;
+      width: 1.1em;
+      height: 1.1em;
+    }
+    .check-item label {
+      flex: 1;
+      cursor: pointer;
+    }
+    .actions {
+      text-align: center;
+      margin-top: 1.5em;
+    }
+    .btn {
+      background: #2d5be3;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.7em 1.5em;
+      font-size: 1em;
+      cursor: pointer;
+      margin: 0 0.5em;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #1b3e8a;
+    }
+    .small {
+      font-size: 0.95em;
+      color: #888;
+      margin-top: 0.5em;
+      text-align: center;
+    }
+    .url-input {
+      width: 80%;
+      padding: 0.5em;
+      border: 1px solid #d0d7e2;
+      border-radius: 5px;
+      margin-bottom: 1em;
+      font-size: 1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <h1>Cloud Designer<br>Test Dashboard</h1>
+    <div class="section">
+      <div class="section-title">Automated UI Health Checks</div>
+      <input class="url-input" id="targetUrl" placeholder="App URL (default: index.html)" />
+      <div class="actions">
+        <button class="btn" onclick="runAutomatedTests()">Run Automated Tests</button>
+        <button class="btn" onclick="openApp()">Open App</button>
+      </div>
+      <ul class="test-list" id="testList"></ul>
+      <div class="small">Checks run on the main app window or provided URL.</div>
+    </div>
+    <div class="section">
+      <div class="section-title">Manual Checklist</div>
+      <ul class="checklist" id="checklist"></ul>
+      <div class="actions">
+        <button class="btn" onclick="resetChecklist()">Reset Checklist</button>
+      </div>
+      <div class="small">Checklist is saved in your browser.</div>
+    </div>
+  </div>
+  <script src="test-dashboard.js"></script>
+</body>
+</html> 

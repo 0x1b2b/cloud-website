@@ -44,8 +44,7 @@
 }
 
 html, body {
-    height: 100%;
-    overflow: hidden;
+    min-height: 100%;
     font-family: var(--font-family);
     background-color: var(--white);
     color: var(--grey-900);
@@ -60,13 +59,12 @@ body.dark-theme {
     color: var(--grey-100);
 }
 
-/* Main container to prevent overflow */
+/* Main container */
 #landing,
 #tool,
 #docs {
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
-    overflow: hidden;
     position: relative;
 }
 
@@ -102,15 +100,15 @@ body.dark-theme {
 
 /* Landing Page - Full viewport */
 .landing-page {
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding-top: 64px;
+    padding-bottom: 2rem;
     background: linear-gradient(135deg, var(--grey-100) 0%, var(--white) 100%);
-    overflow-y: auto;
     overflow-x: hidden;
 }
 
@@ -433,7 +431,7 @@ body.dark-theme {
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
-    padding: 4rem 2rem;
+    padding: 4rem 2rem 2rem 2rem;
     gap: 3rem;
 }
 
@@ -607,6 +605,7 @@ body.dark-theme {
     flex-direction: column !important;
     gap: var(--spacing-lg);
     margin-top: var(--spacing-2xl);
+    margin-bottom: var(--spacing-2xl);
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
@@ -1974,6 +1973,7 @@ body.dark-theme {
     display: grid;
     grid-template-columns: 250px 1fr;
     gap: 3rem;
+    min-height: calc(100vh - 64px);
 }
 
 .docs-sidebar {
@@ -4002,4 +4002,141 @@ body,
 .dark-theme .view-btn:focus-visible,
 .dark-theme .dropdown-item:focus-visible {
     outline-color: var(--white);
+}
+
+/* Enhanced documentation styles */
+.features-list {
+    display: grid;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.feature-item {
+    background: var(--grey-50);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--grey-200);
+}
+
+.dark-theme .feature-item {
+    background: var(--grey-800);
+    border-color: var(--grey-700);
+}
+
+.feature-item h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--black);
+}
+
+.dark-theme .feature-item h3 {
+    color: var(--white);
+}
+
+.feature-item ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.feature-item li {
+    margin-bottom: 0.5rem;
+    color: var(--grey-700);
+    line-height: 1.5;
+}
+
+.dark-theme .feature-item li {
+    color: var(--grey-300);
+}
+
+.export-options {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.export-option {
+    background: var(--grey-50);
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid var(--grey-200);
+}
+
+.dark-theme .export-option {
+    background: var(--grey-800);
+    border-color: var(--grey-700);
+}
+
+.export-option h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--black);
+}
+
+.dark-theme .export-option h4 {
+    color: var(--white);
+}
+
+.export-option p {
+    margin: 0;
+    color: var(--grey-600);
+    font-size: 0.9rem;
+}
+
+.dark-theme .export-option p {
+    color: var(--grey-400);
+}
+
+/* Enhanced focus states */
+.tool-btn:focus-visible,
+.view-btn:focus-visible,
+.dropdown-item:focus-visible {
+    outline: 2px solid var(--black);
+    outline-offset: 2px;
+}
+
+.dark-theme .tool-btn:focus-visible,
+.dark-theme .view-btn:focus-visible,
+.dark-theme .dropdown-item:focus-visible {
+    outline-color: var(--white);
+}
+
+/* Landing Footer */
+.landing-footer {
+    width: 100%;
+    padding: 4rem 2rem;
+    text-align: center;
+    background: var(--grey-50);
+    margin-top: 2rem;
+}
+
+.dark-theme .landing-footer {
+    background: var(--grey-900);
+}
+
+.footer-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.footer-content h3 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--black);
+}
+
+.dark-theme .footer-content h3 {
+    color: var(--white);
+}
+
+.footer-content p {
+    font-size: 1.1rem;
+    color: var(--grey-600);
+    margin-bottom: 2rem;
+}
+
+.dark-theme .footer-content p {
+    color: var(--grey-400);
 }

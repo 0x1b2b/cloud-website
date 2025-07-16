@@ -1,65 +1,51 @@
 # Azure Cloud Architecture Designer
 
-A professional-grade web-based tool for designing, visualizing, and deploying Azure cloud architectures with enterprise features and export options.
+A professional web-based tool for designing Azure cloud architectures with drag-and-drop simplicity.
 
-## 🌟 Features
+## ✨ Features
 
-### Core Functionality
-- **Drag & Drop Interface**: Intuitive component placement with snap-to-grid precision
-- **Azure Native Components**: Official Azure service icons organized by category
-- **Real-time Connections**: Visual connections between components with different types
-- **Zoom & Pan**: Smooth navigation with mouse wheel zoom and pan controls
-- **Undo/Redo**: Full history management with keyboard shortcuts
+### Core
+- **Drag & Drop Interface** - Intuitive component placement with snap-to-grid
+- **Azure Components** - Official Azure services organized by category
+- **Real-time Connections** - Visual relationships between components
+- **Zoom & Pan** - Smooth navigation controls
+- **Undo/Redo** - Full history management
 
-### Professional Features
-- **Templates**: Pre-built architecture templates (Web App, Microservices, Serverless)
-- **Export Options**: High-resolution screenshots and JSON export
-- **Auto-save**: Automatic saving to browser storage
-- **Version History**: Track changes and restore previous versions
-- **Component Properties**: Detailed editing of component attributes
-
-### Advanced Tools
-- **Cost Calculator**: Real-time cost estimation and optimization suggestions
-- **Security Analysis**: Security feature analysis and recommendations
-- **Search & Filter**: Find components quickly with search functionality
-- **Grouping**: Organize components into logical groups
-- **Layers**: Multi-layer architecture support
-- **Annotations**: Add notes and comments to your designs
-
-### User Experience
-- **Dark/Light Theme**: Toggle between themes
-- **Keyboard Shortcuts**: Comprehensive shortcut support
-- **Responsive Design**: Works on desktop and tablet devices
-- **Minimap**: Overview of large architectures
-- **Grid System**: Customizable grid for precise alignment
+### Advanced
+- **Templates** - Pre-built architectures (Web App, Microservices, Serverless)
+- **Export Options** - PNG, PDF, SVG, and JSON formats
+- **Auto-save** - Automatic browser storage
+- **Cost Calculator** - Real-time cost estimation
+- **Security Analysis** - Best practice recommendations
+- **Search & Filter** - Find components quickly
+- **Component Grouping** - Organize into logical groups
+- **Multi-layer Support** - Complex architecture organization
 
 ## 🚀 Quick Start
 
-1. **Open the Application**: Simply open `index.html` in your web browser
-2. **Choose Components**: Drag Azure services from the left panel to the canvas
-3. **Create Connections**: Drag connection types between components
-4. **Customize**: Double-click components to rename, use properties panel for details
-5. **Export**: Save as screenshot or export as JSON for documentation
+1. **Open** `index.html` in your browser
+2. **Drag** Azure services from the left panel to the canvas
+3. **Connect** components using connection types
+4. **Customize** with double-click rename and properties panel
+5. **Export** as screenshot, PDF, SVG, or JSON
 
-## 📋 Keyboard Shortcuts
+## ⌨️ Keyboard Shortcuts
 
 | Shortcut | Action |
 |----------|--------|
 | `Ctrl+Z` | Undo |
 | `Ctrl+Shift+Z` | Redo |
 | `Ctrl+S` | Save Screenshot |
-| `Ctrl+Shift+S` | Save as Template |
-| `Ctrl+O` | Open File |
+| `Ctrl+O` | Import JSON |
 | `Ctrl+E` | Export JSON |
 | `Ctrl+F` | Search Components |
 | `Ctrl+G` | Group Selected |
-| `Ctrl+Shift+G` | Toggle Grid |
-| `Ctrl+R` | Toggle Resize Mode |
 | `Space` | Toggle Pan Mode |
+| `Ctrl+R` | Toggle Resize Mode |
 | `Ctrl+A` | Select All |
 | `Delete` | Delete Selected |
 
-## 🏗️ Architecture Templates
+## 🏗️ Templates
 
 ### Web Application
 Basic web app with database and storage components.
@@ -70,63 +56,23 @@ Multi-service architecture with API gateway and separate databases.
 ### Serverless
 Event-driven serverless architecture with functions and managed services.
 
-## 🛠️ Technical Details
-
-- **Frontend**: Pure HTML5, CSS3, and JavaScript (ES6+)
-- **No Dependencies**: Self-contained, no external libraries required
-- **Browser Storage**: Uses localStorage for data persistence
-- **Export Formats**: PNG screenshots and JSON architecture files
-- **Responsive**: Works on desktop and tablet devices
-
 ## 📁 File Structure
 
 ```
-├── index.html          # Main application file
-├── script.js           # Core application logic
-├── styles.css          # Main stylesheet
-├── README.md           # This file
-├── .gitignore          # Git ignore rules
-└── optimized-*         # Optimized versions (optional)
+├── index.html          # Main application
+├── script.js           # Core logic
+├── styles.css          # Styling
+├── README.md           # Documentation
+└── .gitignore          # Git ignore rules
 ```
 
-## 🔧 Customization
+## 🛠️ Technical Details
 
-### Adding New Services
-Edit the `services` object in `script.js` to add new Azure services:
-
-```javascript
-const services = {
-    newservice: {
-        icon: '🔧',
-        label: 'New Service',
-        color: '#0078d4',
-        category: 'compute',
-        variants: ['basic', 'standard'],
-        cost: { hourly: 0.05, monthly: 36.50 },
-        security: ['encryption', 'rbac'],
-        performance: { cpu: '2-8 cores', memory: '4-32 GB' }
-    }
-};
-```
-
-### Custom Templates
-Add new templates to the `componentTemplates` object:
-
-```javascript
-const componentTemplates = {
-    customtemplate: {
-        name: 'Custom Template',
-        description: 'Your custom architecture',
-        components: [
-            { serviceType: 'vm', x: 200, y: 100, customName: 'Server' }
-        ],
-        connections: [],
-        estimatedCost: 50.00,
-        securityScore: 85,
-        performanceScore: 90
-    }
-};
-```
+- **Frontend**: Pure HTML5, CSS3, JavaScript (ES6+)
+- **No Dependencies**: Self-contained, no external libraries
+- **Storage**: Browser localStorage for persistence
+- **Export**: PNG, PDF, SVG, and JSON formats
+- **Responsive**: Works on desktop and tablet
 
 ## 🌐 Browser Support
 
@@ -134,11 +80,10 @@ const componentTemplates = {
 - **Firefox**: Full support
 - **Safari**: Full support
 - **Edge**: Full support
-- **Internet Explorer**: Not supported
 
 ## 📄 License
 
-This project is open source and available under the MIT License.
+MIT License - Open source and free to use.
 
 ## 🤝 Contributing
 
@@ -150,78 +95,8 @@ This project is open source and available under the MIT License.
 
 ## 📞 Support
 
-For issues, questions, or feature requests, please open an issue on GitHub.
+For issues or questions, please open an issue on GitHub.
 
 ---
 
 **Built with ❤️ for the Azure community** 
-
-## 🚀 Push to GitHub Commands:
-
-### 1. **Check Status**:
-```bash
-git status
-```
-
-### 2. **Add All Files**:
-```bash
-git add .
-```
-
-### 3. **Commit Changes**:
-```bash
-git commit -m "✨ Major UI/UX improvements and bug fixes
-
-🔧 Fixed Issues:
-- Dropdown menus now work properly with smart positioning
-- Folder functionality in palette now collapses/expands correctly
-- Export menu positioning prevents screen overflow
-- Component dragging and selection improved
-- All initialization functions properly called
-
- UI Enhancements:
-- Smart dropdown positioning (above/below, left/right alignment)
-- Enhanced folder animations and interactions
-- Improved event handling and conflict resolution
-- Better debugging and error handling
-- Responsive dropdown positioning on window resize
-
- Bug Fixes:
-- Fixed conflicting event listeners in dropdown initialization
-- Resolved folder toggle conflicts between functions
-- Fixed missing initialization in DOMContentLoaded
-- Improved z-index management for dropdowns
-- Enhanced error handling for missing elements
-
-📱 Features:
-- Automatic dropdown repositioning on window resize
-- Comprehensive debugging functions (testDropdowns, testFolders)
-- Enhanced console logging for troubleshooting
-- Improved accessibility and user experience"
-```
-
-### 4. **Pull with Allow Unrelated Histories** (if needed):
-```bash
-git pull origin main --allow-unrelated-histories
-```
-
-### 5. **Push to GitHub**:
-```bash
-git push origin main
-```
-
-##  Run These Commands One by One:
-
-1. **Copy and paste each command** into your git terminal
-2. **Press Enter** after each command
-3. **Wait for it to complete** before running the next one
-4. **If you get a merge conflict**, run the pull command first, then push
-
-## 🎯 What This Will Do:
-
-- ✅ **Add all your files** to git
-- ✅ **Create a detailed commit** with all the improvements
-- ✅ **Resolve any merge conflicts** with `--allow-unrelated-histories`
-- ✅ **Push everything** to your GitHub repository
-
-Try running these commands one by one in your git terminal! 

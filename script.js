@@ -400,8 +400,7 @@ function initializeEventListeners() {
                 showTool();
             } else if (target === 'docs') {
                 showDocs();
-            } else if (target === 'contact') {
-                showContact();
+
             }
         });
     });
@@ -852,10 +851,7 @@ function handleKeyboardShortcuts(e) {
         );
         
         // Additional check for any form elements
-        const isInForm = activeElement && (
-            activeElement.closest('form') ||
-            activeElement.closest('.contact-form')
-        );
+                    const isInForm = activeElement && activeElement.closest('form');
         
         if (!isInInput && !isInDropdown && !isInForm) {
             e.preventDefault();
@@ -893,18 +889,13 @@ function showDocs() {
     initializeDocsNavigation();
 }
 
-function showContact() {
-    hideAllPages();
-    document.getElementById('contact').style.display = 'block';
-    updateActiveNavLink('contact');
-    initializeContactForm();
-}
+
 
 function hideAllPages() {
     document.getElementById('landing').style.display = 'none';
     document.getElementById('tool').style.display = 'none';
     document.getElementById('docs').style.display = 'none';
-    document.getElementById('contact').style.display = 'none';
+
 }
 
 function updateActiveNavLink(activePage) {
@@ -948,47 +939,7 @@ function initializeDocsNavigation() {
     });
 }
 
-// Contact form handling
-function initializeContactForm() {
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const data = {
-                name: formData.get('name'),
-                email: formData.get('email'),
-                subject: formData.get('subject'),
-                message: formData.get('message')
-            };
-            
-            // Simulate form submission
-            submitContactForm(data);
-        });
-    }
-}
 
-function submitContactForm(data) {
-    // Show loading state
-    const submitBtn = document.querySelector('.submit-btn');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Sending...';
-    submitBtn.disabled = true;
-    
-    // Simulate API call
-    setTimeout(() => {
-        // Show success message
-        alert('Thank you for your message! We\'ll get back to you soon.');
-        
-        // Reset form
-        document.getElementById('contactForm').reset();
-        
-        // Reset button
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    }, 2000);
-}
 
 // Canvas initialization
 function initializeCanvas() {
@@ -3545,7 +3496,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeCanvas();
     initializeDropdowns();
     initializeDocsNavigation();
-    initializeContactForm();
+
     initializeTerminal();
     
     // Load saved data
